@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            productViewModel.flow.collectLatest { pagingData ->
+            productViewModel.getProducts().collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }
