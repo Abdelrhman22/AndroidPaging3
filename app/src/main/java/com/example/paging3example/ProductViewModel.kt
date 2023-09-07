@@ -20,8 +20,7 @@ import kotlinx.coroutines.flow.onStart
 class ProductViewModel @Inject constructor(private val service: ProductService) : ViewModel() {
 
     fun getProducts(): Flow<PagingData<Product>> {
-        // you will find it multiply page size * 3 -> pageSize * DEFAULT_INITIAL_PAGE_MULTIPLIER
-        // so we need to send in constructor
+        // you will find [initialLoadSize] it multiply page size * 3 -> pageSize * DEFAULT_INITIAL_PAGE_MULTIPLIER
         val pager = Pager(PagingConfig(pageSize = 10, initialLoadSize = 10)) {
             ProductPagingSource(productService = service)
         }
