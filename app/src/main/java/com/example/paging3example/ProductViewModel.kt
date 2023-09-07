@@ -11,6 +11,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.paging3example.paging.ProductPagingSource
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 
 
 @HiltViewModel
@@ -23,12 +26,20 @@ class ProductViewModel @Inject constructor(private val service: ProductService) 
             ProductPagingSource(productService = service)
         }
 
-        return pager.flow.cachedIn(viewModelScope)
+        return pager.flow
+            .cachedIn(viewModelScope)
+            .onStart { }
+            .catch { }
+            .onCompletion { }
     }
 
     val flow = Pager(PagingConfig(pageSize = 10, initialLoadSize = 10)) {
         ProductPagingSource(productService = service)
-    }.flow.cachedIn(viewModelScope)
+    }.flow
+        .cachedIn(viewModelScope)
+        .onStart { }
+        .catch { }
+        .onCompletion { }
 
 
 }
